@@ -1,0 +1,74 @@
+name: Build IncognitoGuard Free
+
+on:
+  push:
+    branches: [main, master]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pyinstaller pillow pystray
+      - run: pyinstaller --onefile --windowed --add-data "config.json;." --name IncognitoGuard-Free guard.py
+      - name: Package
+        run: |
+          mkdir release
+          copy dist\IncognitoGuard-Free.exe release\
+          copy config.json release\
+          copy install.ps1 release\
+          xcopy extension\chromium release\extension\chromium\ /E /I /Q
+          xcopy extension\firefox release\extension\firefox\ /E /I /Q
+      - uses: actions/upload-artifact@v4
+        with:
+          name: IncognitoGuard-Free-Windows
+          path: release\
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pyinstaller pystray pillow && sudo apt-get install -y python3-tk
+      - run: pyinstaller --onefile --windowed --add-data "config.json:." --name IncognitoGuard-Free guard.py
+      - name: Package
+        run: |
+          mkdir -p release/extension/chromium
+          mkdir -p release/extension/firefox
+          cp dist/IncognitoGuard-Free release/
+          cp config.json release/
+          cp install.sh release/
+          cp -r extension/chromium/. release/extension/chromium/
+          cp -r extension/firefox/. release/extension/firefox/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: IncognitoGuard-Free-Linux
+          path: release/
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install pyinstaller pystray pillow
+      - run: pyinstaller --onefile --windowed --add-data "config.json:." --name IncognitoGuard-Free guard.py
+      - name: Package
+        run: |
+          mkdir -p release/extension/chromium
+          mkdir -p release/extension/firefox
+          cp dist/IncognitoGuard-Free release/
+          cp config.json release/
+          cp install.sh release/
+          cp -r extension/chromium/. release/extension/chromium/
+          cp -r extension/firefox/. release/extension/firefox/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: IncognitoGuard-Free-macOS
+          path: release/
