@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "Incognito Guard",
+  "version": "1.0.0",
+  "description": "Detects and blocks incognito/private browsing. Alerts parents instantly.",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:8765/*"
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

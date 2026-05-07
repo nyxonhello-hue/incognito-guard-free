@@ -1,0 +1,13 @@
+{
+  "pin": "1122",
+  "max_attempts": 6,
+  "cooldown_seconds": 1800,
+  "email_alerts": true,
+  "smtp_host": "smtp.gmail.com",
+  "smtp_port": 587,
+  "smtp_user": "nyxon.hello@gmail.com",
+  "smtp_pass": "bazp tguj gnwm eyfz",
+  "alert_email": "nyxon.hello@gmail.com",
+  "child_name": "minato",
+  "device_name": "zero"
+}
